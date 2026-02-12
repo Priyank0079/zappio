@@ -235,25 +235,20 @@ export default function SellerSignUp() {
       {/* Sign Up Card */}
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
         {/* Header Section */}
-        <div className="px-6 py-4 text-center border-b border-green-700" style={{ backgroundColor: 'rgb(21 178 74 / var(--tw-bg-opacity, 1))' }}>
-          <div className="mb-0 -mt-4">
+        <div className="px-6 py-6 text-center bg-gradient-to-br from-teal-700 to-teal-900">
+          <div className="flex justify-center mb-4">
             <img
               src="/assets/Zeto-mart.png"
               alt="Zeto Mart"
-              className="h-44 w-full max-w-xs mx-auto object-fill object-bottom"
+              className="h-28 w-auto object-contain bg-white/90 rounded-xl p-2 shadow-sm"
             />
           </div>
-          <h1 className="text-2xl font-bold text-white mb-1 -mt-12">Seller Sign Up</h1>
-          <p className="text-green-50 text-sm -mt-2">Create your seller account</p>
+          <h1 className="text-2xl font-bold text-white mb-1">Seller Sign Up</h1>
+          <p className="text-teal-100 text-sm">Create your seller account</p>
         </div>
 
         {/* Sign Up Form */}
-        <div className="p-6 space-y-4 seller-signup-form" style={{ maxHeight: '70vh', overflowY: 'auto', scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          <style>{`
-            .seller-signup-form::-webkit-scrollbar {
-              display: none;
-            }
-          `}</style>
+        <div className="p-6 space-y-4">
           {!showOTP ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Required Fields Section */}
@@ -639,8 +634,8 @@ export default function SellerSignUp() {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full py-2.5 rounded-lg font-semibold text-sm transition-colors ${!loading
-                  ? 'bg-teal-600 text-white hover:bg-teal-700 shadow-md'
+                className={`w-full py-3 rounded-lg font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5 ${!loading
+                  ? 'bg-gradient-to-r from-teal-700 to-teal-900 text-white hover:from-teal-800 hover:to-teal-950'
                   : 'bg-neutral-300 text-neutral-500 cursor-not-allowed'
                   }`}
               >
@@ -654,7 +649,7 @@ export default function SellerSignUp() {
                   <button
                     type="button"
                     onClick={() => navigate('/seller/login')}
-                    className="text-teal-600 hover:text-teal-700 font-semibold"
+                    className="text-teal-800 hover:text-teal-950 font-bold ml-1 transition-colors"
                   >
                     Login
                   </button>
