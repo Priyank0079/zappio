@@ -62,7 +62,7 @@ const RazorpayCheckout: React.FC<RazorpayCheckoutProps> = ({
                     key: razorpayKey, // Get key from backend response
                     amount: amount * 100, // Amount in paise
                     currency: 'INR',
-                    name: 'Zeto Mart',
+                    name: 'Zappio',
                     description: `Order #${orderId}`,
                     order_id: razorpayOrderId,
                     prefill: {
@@ -125,3 +125,4 @@ const RazorpayCheckout: React.FC<RazorpayCheckoutProps> = ({
 };
 
 export default RazorpayCheckout;
+

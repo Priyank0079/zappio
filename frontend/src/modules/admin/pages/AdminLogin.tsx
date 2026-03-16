@@ -51,8 +51,8 @@ export default function AdminLogin() {
     }
   };
 
-  const handleZetoMartLogin = () => {
-    // Handle Zeto Mart login logic here
+  const handlezappioLogin = () => {
+    // Handle Zappio login logic here
     navigate("/admin");
   };
 
@@ -90,9 +90,9 @@ export default function AdminLogin() {
         <div className="px-6 py-6 text-center bg-gradient-to-br from-teal-700 to-teal-900">
           <div className="flex justify-center mb-4">
             <img
-              src="/assets/Zeto-mart.png"
-              alt="Zeto Mart"
-              className="h-28 w-auto object-contain bg-white/90 rounded-xl p-2 shadow-sm"
+              src="/assets/Zappio.png"
+              alt="Zappio"
+              className="h-28 w-auto object-contain"
             />
           </div>
           <h1 className="text-2xl font-bold text-white mb-1">
@@ -198,9 +198,10 @@ export default function AdminLogin() {
 
       {/* Footer Text */}
       <p className="mt-6 text-xs text-neutral-500 text-center max-w-md">
-        By continuing, you agree to Zeto Mart's Terms of Service and Privacy Policy
+        By continuing, you agree to Zappio's Terms of Service and Privacy Policy
       </p>
     </div>
   );
 }
+
 

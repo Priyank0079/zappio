@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 export default function AdminCustomerAppPolicy() {
-  const [policyContent, setPolicyContent] = useState(`Welcome to Zeto Mart - 10 Minute App!
+  const [policyContent, setPolicyContent] = useState(`Welcome to Zappio - 10 Minute App!
 
 By using our customer app, you agree to the following terms and conditions:
 
@@ -132,5 +132,6 @@ Last updated: December 2025`);
     </div>
   );
 }
+
 
 
