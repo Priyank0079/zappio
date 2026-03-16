@@ -89,7 +89,7 @@ export default function Login() {
             <img
               src="/assets/Zappio.png"
               alt="Zappio"
-              className="h-16 w-auto object-contain drop-shadow-md"
+              className="h-16 w-auto object-contain"
             />
           </div>
 
