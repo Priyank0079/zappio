@@ -93,7 +93,7 @@ export default function DeliveryLogin() {
         <div className="px-6 py-6 text-center bg-gradient-to-br from-teal-700 to-teal-900">
           <div className="flex justify-center mb-4">
             <img
-              src="/assets/Zappio.png"
+              src="/assets/logoooo.png"
               alt="Zappio"
               className="h-28 w-auto object-contain"
             />

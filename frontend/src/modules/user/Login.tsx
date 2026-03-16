@@ -87,7 +87,7 @@ export default function Login() {
           {/* Logo */}
           <div className="mb-2">
             <img
-              src="/assets/Zappio.png"
+              src="/assets/logoooo.png"
               alt="Zappio"
               className="h-16 w-auto object-contain"
             />

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
-import zappioLogo from '@assets/Zappio.png';
+import zappioLogo from '@assets/logoooo.png';
 
 interface AdminHeaderProps {
   onMenuClick: () => void;

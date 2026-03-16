@@ -29,7 +29,7 @@ export default function AboutUs() {
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center mb-4">
                         <img 
-                            src="/assets/Zappio.png" 
+                            src="/assets/logoooo.png" 
                             alt="Zappio Logo" 
                             className="h-24 w-auto object-contain"
                         />

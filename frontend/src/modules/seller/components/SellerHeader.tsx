@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import zappioLogo from '@assets/Zappio.png';
+import zappioLogo from '@assets/logoooo.png';
 import { useAuth } from '../../../context/AuthContext';
 
 interface SellerHeaderProps {
