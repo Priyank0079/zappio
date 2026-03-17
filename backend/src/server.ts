@@ -26,12 +26,20 @@ const allowedOrigins = [
   "https://www.dhakadsnazzy.com",
   "https://dhakadsnazzy.com",
   "https://zappio-sandy.vercel.app",
+  // Local development origins
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
   // Add more origins from environment variable if needed
-  ...(process.env.FRONTEND_URL ? process.env.FRONTEND_URL.split(",").map(url => url.trim()) : [])
+  ...(process.env.FRONTEND_URL
+    ? process.env.FRONTEND_URL.split(",").map((url) => url.trim().replace(/\/$/, ""))
+    : [])
 ];
 
 const corsOptions = {
-  origin: allowedOrigins,
+  // In dev we reflect the request origin to avoid CORS pain; in prod restrict to the whitelist above
+  origin: process.env.NODE_ENV !== "production"
+    ? true
+    : allowedOrigins.map((o) => o.replace(/\/$/, "")),
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],

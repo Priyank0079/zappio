@@ -12,10 +12,28 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID,
 };
 
+const requiredKeys: (keyof typeof firebaseConfig)[] = [
+  "apiKey",
+  "authDomain",
+  "projectId",
+  "messagingSenderId",
+  "appId",
+];
+
+const hasAllRequiredConfig = requiredKeys.every(
+  (key) => !!firebaseConfig[key]
+);
+
 // Initialize Firebase
 let app;
 try {
-  app = initializeApp(firebaseConfig);
+  if (!hasAllRequiredConfig) {
+    console.warn(
+      "Firebase config missing required values. Push notifications will be disabled until you add the web config to your .env file."
+    );
+  } else {
+    app = initializeApp(firebaseConfig);
+  }
 } catch (error) {
   console.error("Firebase initialization failed:", error);
 }

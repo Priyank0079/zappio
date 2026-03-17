@@ -42,12 +42,21 @@ export default function HomeHero({ activeTab = 'all', onTabChange }: HomeHeroPro
       try {
         const cats = await getHeaderCategoriesPublic();
         if (cats && cats.length > 0) {
-          const mapped = cats.map(c => ({
-            id: c.slug,
-            label: c.name,
-            icon: getIconByName(c.iconName)
-          }));
-          setTabs([ALL_TAB, ...mapped]);
+          const uniqueTabs: Tab[] = [ALL_TAB];
+          const seen = new Set<string>(['all']);
+
+          cats.forEach(c => {
+            const id = c.slug;
+            if (!id || seen.has(id)) return; // skip missing or duplicate ids
+            seen.add(id);
+            uniqueTabs.push({
+              id,
+              label: c.name,
+              icon: getIconByName(c.iconName)
+            });
+          });
+
+          setTabs(uniqueTabs);
         }
       } catch (error) {
         console.error('Failed to fetch header categories', error);
