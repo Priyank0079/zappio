@@ -18,6 +18,9 @@ dotenv.config();
 const app: Application = express();
 const httpServer = createServer(app);
 
+// Trust proxy for correct origin detection (important for deployment)
+app.set('trust proxy', 1);
+
 // Simple CORS configuration - Standard and reliable
 const allowedOrigins = [
   "https://www.dhakadsnazzy.com",
@@ -28,35 +31,7 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
-    // Allow requests with no origin (mobile apps, Postman, etc.)
-    if (!origin) {
-      return callback(null, true);
-    }
-
-    // In development, allow localhost
-    if (process.env.NODE_ENV !== "production") {
-      if (origin.startsWith("http://localhost:") || origin.startsWith("http://127.0.0.1:")) {
-        return callback(null, true);
-      }
-    }
-
-    // Normalize origin (remove trailing slash)
-    const normalizedOrigin = origin.replace(/\/$/, '');
-
-    // Check if origin is in allowed list (exact match or normalized)
-    const isAllowed = allowedOrigins.some(allowed => {
-      const normalizedAllowed = allowed.replace(/\/$/, '');
-      return origin === allowed || normalizedOrigin === normalizedAllowed || origin === normalizedAllowed || normalizedOrigin === allowed;
-    });
-
-    if (isAllowed) {
-      return callback(null, true);
-    }
-
-    // Reject if not allowed - return false instead of error for better handling
-    return callback(null, false);
-  },
+  origin: allowedOrigins,
   credentials: true,
   methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],
