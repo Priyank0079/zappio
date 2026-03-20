@@ -15,6 +15,7 @@ export const errorHandler = (
 ): void => {
   // Log error for debugging
   console.error('Error:', err);
+  require('fs').appendFileSync('d:/Appzeto/Zappio/backend/error.log', new Date().toISOString() + ' ' + String(err.stack || err) + '\n');
 
   let statusCode = err.statusCode || 500;
   let message = err.message || 'Internal Server Error';

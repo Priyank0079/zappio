@@ -152,16 +152,16 @@ router.delete("/remove", async (req: Request, res: Response): Promise<void> => {
     let UserModel: any;
     switch (userType) {
       case "Customer":
-        UserModel = (await import("../models/Customer")).default;
+        UserModel = Customer;
         break;
       case "Admin":
-        UserModel = (await import("../models/Admin")).default;
+        UserModel = Admin;
         break;
       case "Seller":
-        UserModel = (await import("../models/Seller")).default;
+        UserModel = Seller;
         break;
       case "Delivery":
-        UserModel = (await import("../models/Delivery")).default;
+        UserModel = Delivery;
         break;
       default:
         res.status(400).json({
@@ -231,16 +231,16 @@ router.post("/test", async (req: Request, res: Response): Promise<void> => {
     let UserModel: any;
     switch (userType) {
       case "Customer":
-        UserModel = (await import("../models/Customer")).default;
+        UserModel = Customer;
         break;
       case "Admin":
-        UserModel = (await import("../models/Admin")).default;
+        UserModel = Admin;
         break;
       case "Seller":
-        UserModel = (await import("../models/Seller")).default;
+        UserModel = Seller;
         break;
       case "Delivery":
-        UserModel = (await import("../models/Delivery")).default;
+        UserModel = Delivery;
         break;
       default:
         res.status(400).json({
