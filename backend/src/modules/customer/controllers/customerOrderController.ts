@@ -686,10 +686,6 @@ export const getOrderById = async (req: Request, res: Response) => {
             });
         }
 
-        // Get customer's permanent delivery OTP
-        const customer = await Customer.findById(userId).select('deliveryOtp');
-        const deliveryOtp = customer?.deliveryOtp;
-
         // Transform order to match frontend Order type
         const orderObj = order.toObject();
         const transformedOrder = {
@@ -706,8 +702,9 @@ export const getOrderById = async (req: Request, res: Response) => {
             address: orderObj.deliveryAddress,
             // Include invoice enabled flag
             invoiceEnabled: orderObj.invoiceEnabled || false,
-            // Include customer's permanent delivery OTP
-            deliveryOtp,
+            // Only expose OTP if the delivery boy has triggered it (stored on order doc).
+            // generateDeliveryOtp() copies customer's permanent OTP here when delivery boy requests it.
+            deliveryOtp: orderObj.deliveryOtp || undefined,
             // Map deliveryBoy to deliveryPartner for frontend
             deliveryPartner: orderObj.deliveryBoy
         };
