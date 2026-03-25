@@ -2,14 +2,14 @@ import Order from '../models/Order';
 import Customer from '../models/Customer';
 
 /**
- * Generate delivery OTP is no longer needed for regular orders.
- * Customer has a permanent deliveryOtp that is generated on account creation.
- * This function is kept for backward compatibility but does nothing meaningful now.
+ * Activate the customer's permanent OTP on the specific order document.
+ * When a delivery boy requests OTP, this copies the customer's permanent OTP
+ * into the order's deliveryOtp field so the frontend can display it.
  */
 export async function generateDeliveryOtp(orderId: string): Promise<{ success: boolean; message: string }> {
   try {
+    // Fetch the order first
     const order = await Order.findById(orderId);
-
     if (!order) {
       throw new Error('Order not found');
     }
@@ -18,13 +18,21 @@ export async function generateDeliveryOtp(orderId: string): Promise<{ success: b
       throw new Error('Order is already delivered');
     }
 
-    // No longer generate per-order OTP - customer has permanent deliveryOtp
-    // Just return success as the customer's permanent OTP will be used
-    console.log(`[Delivery OTP] Using customer's permanent delivery OTP for order ${orderId}`);
+    // Fetch customer to get their permanent OTP
+    const customer = await Customer.findById(order.customer);
+    if (!customer || !customer.deliveryOtp) {
+      throw new Error('Customer delivery OTP not found');
+    }
+
+    // Copy the customer's permanent OTP onto this order so the customer UI can display it
+    order.deliveryOtp = customer.deliveryOtp;
+    await order.save();
+
+    console.log(`[Delivery OTP] Activated OTP for order ${orderId}`);
 
     return {
       success: true,
-      message: 'Customer has a permanent delivery OTP. Share it with the delivery partner.',
+      message: 'Delivery OTP has been sent to the customer.',
     };
   } catch (error: any) {
     console.error('Error in generateDeliveryOtp:', error);
