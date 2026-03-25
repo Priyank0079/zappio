@@ -51,6 +51,44 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): v
 };
 
 /**
+ * Optionally authenticate a request.
+ * - If no Authorization header is present, the request continues unauthenticated.
+ * - If a Bearer token is present, it must be valid; otherwise a 401 is returned.
+ *
+ * Use this when a route can be accessed publicly but should still respect
+ * authenticated context when available (e.g., uploads during signup).
+ */
+export const authenticateOptional = (req: Request, res: Response, next: NextFunction): void => {
+  const authHeader = req.headers.authorization;
+
+  // No token supplied -> proceed as anonymous
+  if (!authHeader) {
+    return next();
+  }
+
+  if (!authHeader.startsWith('Bearer ')) {
+    res.status(401).json({
+      success: false,
+      message: 'Invalid authorization header format. Expected: Bearer <token>',
+    });
+    return;
+  }
+
+  const token = authHeader.substring(7);
+
+  try {
+    const decoded = verifyToken(token);
+    req.user = decoded;
+    next();
+  } catch (error: any) {
+    res.status(401).json({
+      success: false,
+      message: error.message || 'Invalid or expired token',
+    });
+  }
+};
+
+/**
  * Authorize user by checking role (for Admin users)
  */
 export const authorize = (...roles: string[]) => {
