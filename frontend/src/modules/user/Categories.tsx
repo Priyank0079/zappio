@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { getHomeContent } from "../../services/api/customerHomeService";
 import { useLocation } from "../../hooks/useLocation";
 import CategoryTileSection from "./components/CategoryTileSection";
@@ -6,6 +7,7 @@ import ProductCard from "./components/ProductCard";
 
 export default function Categories() {
   const { location } = useLocation();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [homeData, setHomeData] = useState<any>({
@@ -66,7 +68,16 @@ export default function Categories() {
   return (
     <div className="pb-4 md:pb-8 bg-white min-h-screen">
       {/* Page Header */}
-      <div className="px-4 py-4 md:px-6 md:py-6 bg-white border-b border-neutral-200 sticky top-0 z-10 shadow-sm">
+      <div className="px-4 py-4 md:px-6 md:py-5 bg-white border-b border-neutral-200 sticky top-0 z-10 shadow-sm flex items-center gap-3">
+        <button
+          onClick={() => navigate(-1)}
+          className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-gray-100 transition-colors"
+          aria-label="Go back"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+        </button>
         <h1 className="text-xl md:text-2xl font-bold text-neutral-900">Categories</h1>
       </div>
 

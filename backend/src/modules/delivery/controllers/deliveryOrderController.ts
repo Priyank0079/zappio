@@ -468,13 +468,21 @@ export const sendDeliveryOtp = asyncHandler(
     try {
       const result = await generateDeliveryOtp(id);
 
-      // Emit otp-sent event to delivery boy
+      // Emit otp-sent event
       const io = (req.app as any).get("io");
       if (io) {
+        // Emit to delivery boy
         io.to(`delivery-${deliveryId}`).emit("otp-sent", {
           orderId: id,
           orderNumber: order.orderNumber,
           message: "Delivery OTP sent to customer",
+        });
+
+        // Emit to order room (so customer can see it)
+        io.to(`order-${id}`).emit("otp-sent", {
+          orderId: id,
+          orderNumber: order.orderNumber,
+          message: "OTP requested by delivery boy",
         });
       }
 

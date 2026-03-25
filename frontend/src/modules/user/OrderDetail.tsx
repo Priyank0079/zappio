@@ -486,26 +486,31 @@ export default function OrderDetail() {
     error: trackingError,
     reconnectAttempts,
     reconnect,
+    otpSentAt,
   } = useDeliveryTracking(id);
 
   // Seller locations for the order
   const [sellerLocations, setSellerLocations] = useState<any[]>([]);
   const [loadingSellerLocations, setLoadingSellerLocations] = useState(false);
 
-  // Fetch order if not in context
+  // Fetch order on mount — show cached data immediately for fast display,
+  // then always do a fresh API fetch so deliveryOtp / status are always up-to-date
   useEffect(() => {
     const loadOrder = async () => {
       if (!id) return;
 
+      // Show cached order immediately (avoids loading flash)
       const existingOrder = getOrderById(id);
       if (existingOrder) {
         setOrder(existingOrder);
         setOrderStatus(existingOrder.status);
         setLoading(false);
-        return;
+      } else {
+        setLoading(true);
       }
 
-      setLoading(true);
+      // Always silently fetch fresh data from server
+      // (cached order may be missing deliveryOtp set after delivery boy triggered it)
       const fetchedOrder = await fetchOrderById(id);
       if (fetchedOrder) {
         setOrder(fetchedOrder);
@@ -515,7 +520,8 @@ export default function OrderDetail() {
     };
 
     loadOrder();
-  }, [id, getOrderById, fetchOrderById]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
 
   // Fetch seller locations when order is loaded
   useEffect(() => {
@@ -570,6 +576,19 @@ export default function OrderDetail() {
       }
     }
   }, [socketOrderStatus, orderStatus, id, fetchOrderById]);
+
+  // When delivery boy sends OTP, re-fetch order so the OTP becomes visible to customer
+  useEffect(() => {
+    if (otpSentAt && id) {
+      console.log('🔐 OTP sent by delivery partner – refreshing order data');
+      fetchOrderById(id).then((fetchedOrder) => {
+        if (fetchedOrder) {
+          setOrder(fetchedOrder);
+        }
+      });
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [otpSentAt]);
 
   // Simulate order status progression
   useEffect(() => {
